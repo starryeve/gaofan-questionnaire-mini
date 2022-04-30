@@ -1,0 +1,42 @@
+.dividing-line {
+  margin: 54px 0;
+
+  border: 2px dashed #D4D4D4;
+}
+
+.section {
+  width: 648px;
+  margin: 0 auto;
+}
+
+.title {
+  display: inline-block;
+  margin: 0 0 32px;
+  padding: 20px;
+
+  background-color: #2B6FF7;
+  color: #fff;
+  font-size: 36px;
+}
+
+.description {
+  color: #3C3C3C;
+  font-size: 32px;
+  line-height: 54px;
+}
+.description.paragraph {
+  margin-bottom: 58px;
+}
+.description.indentation {
+  text-indent: 2em;
+}
+
+.annotation {
+  margin: 19px 0 45px;
+  color: #AEACAC;
+  font-size: 28px;
+  text-align: center;
+}
+
+
+

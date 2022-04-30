@@ -1,0 +1,57 @@
+@import url('./common.scss');
+
+.college {
+  padding: 46px 62px;
+
+  .banner {
+		height: 418px;
+		width: 648px;
+		margin: 0 auto;
+
+    .banner__item {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      border-radius: 20rpx;
+
+      // &::after {
+      //   content: '';
+      //   display: block;
+      //   position: absolute;
+      //   top: -10rpx;
+      //   left: 50%;
+      //   transform: translate(-50%, 0);
+      //   height: 100%;
+      //   width: 90%;
+      //   box-shadow: 0 20rpx 200rpx 0 #dcdcdcbc;
+      //   border-radius: 0rpx;
+      //   z-index: -10;
+      // }
+
+      .banner__item__image {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        z-index: 1;
+        border-radius: 20rpx;
+      }
+    }
+	}
+
+
+
+  .tabs {
+    width: 626px;
+    margin: 0 auto;
+  }
+
+  .at-tabs {
+    .at-tabs__header {
+      .at-tabs__item{
+        font-size: 40px;
+      }
+    }
+  }
+
+
+}

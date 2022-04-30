@@ -1,0 +1,73 @@
+.employee {
+  padding: 46px 62px;
+  
+  .title {
+    margin: 40px 0;
+
+    color: #383838;
+    font-size: 38px;
+    font-weight: 600;
+  }
+
+  .questionnaires {
+    .questionnaire {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding: 32px;
+
+      background-color: #F3F3F3;
+      // border: 1px dashed #C9C9C9;
+      .questionnaire__info {
+        width: 70%;
+
+        View {
+
+          font-size: 30px;
+          line-height: 55px;
+
+          .questionnaire__info__key {
+            color: #505050;
+          }
+
+          .questionnaire__info__value {
+            color: #878787;
+          }
+        }
+      }
+      .questionnaire__oper {
+        width: 30%;
+
+        .at-button {
+          width: 144px;
+          height: 44px;
+
+          line-height: 44px;
+        }
+        .at-button:nth-of-type(n+2) {
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+
+  .submit {
+    width: 458px;
+    margin-top: 100px;
+
+    background-color: #2B6FF7;
+
+    .at-button__text {
+      display: flex;
+      align-items: center;
+
+      .at-icon {
+        margin-right: 16px;
+      }
+
+      Text {
+        font-size: 30px;
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.feedback {
+  padding: 88px 62px;
+  .at-textarea {
+    margin: 0 0 78px;
+    background-color: #F6F6F6;
+  }
+  .operations {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 100px;
+    .at-button {
+      width: 240px
+    }
+  }
+}
