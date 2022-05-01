@@ -20,7 +20,7 @@ class App extends Component {
     console.log('---componentDidCatchError')
   }
 
-  onLaunch () {
+  async onLaunch () {
     console.log('--- onLaunch ---)');
   }
 

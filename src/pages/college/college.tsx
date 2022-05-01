@@ -48,7 +48,7 @@ function College() {
           <Translation></Translation>
         </AtTabsPane>
       </AtTabs>
-      
+
     </View>
   )
 }

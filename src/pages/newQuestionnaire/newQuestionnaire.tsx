@@ -1,13 +1,14 @@
 import { Picker, View, Text } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
-import { useEffect, useState } from "react";
+import { AtButton, AtForm, AtIcon, AtInput, AtList, AtListItem , AtMessage, AtModal } from "taro-ui";
+import { useState } from "react";
 import getOpenId from "../../utils/getOpenId";
-import { AtButton, AtForm, AtIcon, AtInput, AtList, AtListItem , AtMessage } from "taro-ui";
-import request from "../../request/index";
-import './questionnaire.scss'
 
-function Questionnaire() {
-  const { params } = useRouter()
+import request from "../../request/index";
+import './newQuestionnaire.scss'
+
+function NewQuestionnaire() {
+  const {params} = useRouter()
   const [form, setForm] = useState({
     companyName: '', // 公司名称
     mode: '', // 线上或者线下
@@ -21,7 +22,7 @@ function Questionnaire() {
     email: '', // 联系人邮箱
     mobilePhone: '', // 联系人电话
     attachment: '', // 附件 url,
-    attachment_name: '', // 附件名称
+    attachmentName: '', // 附件名称
 
     intern: 0, // 0表示实习，1表示正职
     submit: 0, // 表示未提交，1表示提交
@@ -31,22 +32,11 @@ function Questionnaire() {
     mode: ['线上', '线下'],
     salary: ['面谈', '5000-7000', '7000-10000', '10000以上', '其他']
   })
+  const [modal, setModal] = useState({
+    save: false,
+    submit: false
+  })
 
-  const getQuestionnaire = async () => {
-    const openId = await getOpenId()
-    const id = params.id
-    setForm({
-      ...form,
-      openid: openId as string
-    })
-    if(!id) return
-
-    const res = await request({
-      method: 'GET',
-      url: '/recruit/one/' + id
-    })
-    setForm(res.data.data)
-  }
 
   const handleFileChoose = async () => {
     try {
@@ -64,7 +54,7 @@ function Questionnaire() {
       })
       setForm({
         ...form,
-        attachment_name: tempFiles[0].name,
+        attachmentName: tempFiles[0].name,
         attachment: JSON.parse(res.data).data
       })
 
@@ -77,75 +67,62 @@ function Questionnaire() {
     let allHasVal = true
     for(const key in form) {
       const val = form[key]
-      if( key!== 'attachment' && key!== 'attachmentName' && String(val).trim().length === 0)  {
+      if(key!== 'openid' && key!== 'attachment' && key!== 'attachmentName' && String(val).trim().length === 0)  {
         allHasVal = false
         console.log(form);
       }
     }
+
     if(!allHasVal) return Taro.atMessage({
       'message': '不能有空项',
       'type': 'error',
     })
-    
-    if(form.submit === 0) {
-      const res = await request({
-        method: 'POST',
-        url: '/recruit/new',
-        data: form
+
+    const openId = await getOpenId()
+    const res = await request({
+      method: 'POST',
+      url: '/recruit/new',
+      data: {
+        ...form,
+        submit:1,
+        intern: Number( params.intern ),
+        openid: openId as string
+      }
+    })
+    console.log(res);
+    Taro.atMessage({
+      'message': '提交成功',
+      'type': 'success',
+    })
+    setTimeout(() => {
+      Taro.navigateTo({
+        url: '/pages/complete/complete',
       })
-      console.log(res);
-      Taro.atMessage({
-        'message': '提交成功',
-        'type': 'success',
-      })
-      setTimeout(() => {
-        Taro.navigateTo({
-          url: '/pages/complete/complete',
-        })
-      }, 1000);
-    } else {
-      const res = await request({
-        method: 'PUT',
-        url: '/recruit/submit/' + params.id,
-        data: form
-      })
-      console.log(res);
-      Taro.atMessage({
-        'message': '提交成功',
-        'type': 'success',
-      })
-      setTimeout(() => {
-        Taro.navigateTo({
-          url: '/pages/complete/complete',
-        })
-      }, 1000);
-    }
+    }, 1000);
   }
 
+
   const handleSave = async () => {
-    if(form.submit === 0) {
-      const res = await request({
-        method: 'POST',
-        url: '/recruit/new',
-        data: form
-      })
-      console.log(res);
-      Taro.atMessage({
-        'message': '保存成功',
-        'type': 'success',
-      })
-    } else {
-      const res = await request({
-        method: 'PUT',
-        url: '/recruit/modify',
-        data: form
-      })
-      console.log(res);
-      Taro.atMessage({
-        'message': '保存成功',
-        'type': 'success',
-      })
-    }
+    const openId = await getOpenId()
+    const res = await request({
+      method: 'POST',
+      url: '/recruit/new',
+      data: {
+        ...form,
+        submit: 0,
+        intern: Number( params.intern ),
+        openid: openId as string
+      }
+    })
+    console.log(res);
+    Taro.atMessage({
+      'message': '保存成功',
+      'type': 'success',
+    })
+    setModal({
+      ...modal,
+      save: true
+    })
     // setTimeout(() => {
     //   const page = params.page
     //   Taro.navigateTo({
@@ -155,12 +132,27 @@ function Questionnaire() {
   }
 
 
-  useEffect(() => {
-    getQuestionnaire()
-  }, [])
 
   return (
     <View className='questionnaire'>
+      <AtModal
+        isOpened={modal.save}
+        title='保存问卷'
+        confirmText='好的'
+        onClose={() => { setModal({...modal, save: false}); Taro.navigateBack()}}
+        onCancel={() => { setModal({...modal, save: false}); Taro.navigateBack()}}
+        content='问卷信息已保存至草稿箱，信息填写完整方可提交'
+      />
+      <AtModal
+        isOpened={modal.submit}
+        title='提交问卷'
+        cancelText='取消'
+        confirmText='确认'
+        onClose={() => setModal({...modal, submit: false})}
+        onCancel={() => setModal({...modal, submit: false})}
+        onConfirm={handleSubmit}
+        content='请确保问卷信息无误，填写成功后将不能再修改'
+      />
       <AtMessage />
       <AtForm className='form'>
         <View className='form-item'>
@@ -353,12 +345,12 @@ function Questionnaire() {
         </View>
 
         <View className='file-upload'>
-          <AtButton className='file-upload__button' circle onClick={handleFileChoose}> 
+          <AtButton className='file-upload__button' circle onClick={handleFileChoose}>
             <AtIcon value='link' size='20' color='#AFAFAF'></AtIcon>
             <Text>上传文件</Text>
           </AtButton>
           <View className='file-upload__tip'>
-            {form.attachment ? form.attachment_name : '（如有详细用人清单，请上传）'}
+            {form.attachment ? form.attachmentName : '（如有详细用人清单，请上传）'}
           </View>
         </View>
 
@@ -367,11 +359,11 @@ function Questionnaire() {
       <View className='operations'>
 
         <AtButton onClick={handleSave}>保存</AtButton>
-        <AtButton type='primary' onClick={handleSubmit}>提交</AtButton>
+        <AtButton type='primary' onClick={() => {setModal({...modal, submit: true})}}>提交</AtButton>
 
       </View>
     </View>
   )
 }
 
-export default Questionnaire
+export default NewQuestionnaire

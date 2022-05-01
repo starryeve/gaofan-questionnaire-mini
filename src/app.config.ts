@@ -2,11 +2,17 @@ export default defineAppConfig({
   pages: [
     "pages/index/index",
     "pages/complete/complete",
-    "pages/questionnaire/questionnaire",
-    "pages/employment/employment",
-    "pages/college/college",
-    "pages/practice/practice",
     "pages/feedback/feedback",
+    "pages/practice/practice",
+    "pages/employment/employment",
+
+    "pages/questionnaire/questionnaire",
+
+    "pages/newQuestionnaire/newQuestionnaire",
+    "pages/modifyQuestionnaire/modifyQuestionnaire",
+    "pages/contact/contact",
+
+    "pages/college/college",
   ],
   window: {
     backgroundTextStyle: "light",

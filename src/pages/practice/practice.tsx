@@ -1,91 +1,135 @@
 import { View, Text } from "@tarojs/components";
-import Taro from "@tarojs/taro";
-import { AtButton, AtIcon } from "taro-ui";
+import Taro, { useDidShow } from "@tarojs/taro";
+import { useState } from "react";
+import { AtButton, AtIcon, AtModal } from "taro-ui";
+import request from "../../request/index";
+import getOpenId from "../../utils/getOpenId";
 import './practice.scss'
 
 function Practice() {
-  const addQuestionnaire = () => {
-    Taro.navigateTo({
-      url: '/pages/questionnaire/questionnaire',
-      events: {
+  const [modalDelete, setModalDelete] = useState({
+    opened: false,
+    id: 0
+  })
+  const [questionnaires, setQuestionnaires] = useState([])
 
-      },
-      success: (res) => {
-        console.log(res);
-      }
+
+  const getQuestionnaires = async () => {
+    const openId = await getOpenId()
+    const res = await request({
+      method: 'GET',
+      url: '/recruit/get_list/' + openId
+    })
+    const q = res.data.data.filter((item) => item.intern === 1)
+    setQuestionnaires(q)
+    console.log(res);
+  }
+
+  const addQuestionnaire = async () => {
+    Taro.navigateTo({
+      url: '/pages/newQuestionnaire/newQuestionnaire?intern=1'
     })
   }
+
+  const handleModify = async (id) => {
+    Taro.navigateTo({
+      url: `/pages/modifyQuestionnaire/modifyQuestionnaire?intern=1&id=${id}`,
+    })
+  }
+
+  const handleDelete = async (id) => {
+    setModalDelete({
+      id,
+      opened: true
+    })
+  }
+
+  const deleteQuestionnaire = async () => {
+    const res = await request({
+      method: 'DELETE',
+      url: '/recruit/' + modalDelete.id
+    })
+    setModalDelete({
+      id: 0,
+      opened: false
+    })
+    getQuestionnaires()
+  }
+
+
+  useDidShow(() => {
+    getQuestionnaires()
+  })
+  // useEffect(() => {
+  //   getQuestionnaires()
+  // }, [])
+
   return (
     <View className='practice'>
+      <AtModal
+        isOpened={modalDelete.opened}
+        title='是否删除该问卷？'
+        cancelText='取消'
+        confirmText='确认'
+        onClose={() => setModalDelete({...modalDelete, opened: false})}
+        onCancel={() => setModalDelete({...modalDelete, opened: false})}
+        onConfirm={deleteQuestionnaire}
+      />
+
       <View className='title'>我的实习问卷</View>
       <View className='questionnaires'>
-        <View className='questionnaire'>
-          <View className='questionnaire__info'>
-            <View>
-              <Text className='questionnaire__info__key'>
-                单位名称：
-              </Text> 
-              <Text className='questionnaire__info__value'>
-                Quanta
-              </Text> 
+        {
+          questionnaires.map((item, index) => {
+            return (
+              <View key={index} className='questionnaire'>
+              <View className='questionnaire__info'>
+                <View>
+                  <Text className='questionnaire__info__key'>
+                    单位名称：
+                  </Text> 
+                  <Text className='questionnaire__info__value'>
+                    {item.companyName}
+                  </Text>
+                </View>
+                <View>
+                  <Text className='questionnaire__info__key'>
+                    实习负责人姓名：
+                  </Text>
+                  <Text className='questionnaire__info__value'>
+                    {item.hrName}
+                  </Text>
+                </View>
+                <View>
+                  <Text className='questionnaire__info__key'>
+                    联系电话：
+                  </Text>
+                  <Text className='questionnaire__info__value'>
+                    {item.mobilePhone}
+                  </Text>
+                </View>
+              </View>
+              <View className='questionnaire__oper'>
+                {
+                  item.submit === 0 ? (
+                    <>
+                      <AtButton circle type='secondary' size='small' onClick={
+                       () => handleModify(item.id)
+                      }
+                      >修改</AtButton>
+                      <AtButton circle size='small' onClick={
+                        () => {handleDelete(item.id)}
+                      }
+                      >删除</AtButton>
+                    </>
+                  ) : (
+                    <AtButton circle type='primary' size='small'>已提交</AtButton>
+                  )
+                }
+              </View>
             </View>
-            <View>
-              <Text className='questionnaire__info__key'>
-                招聘负责人姓名：
-              </Text> 
-              <Text className='questionnaire__info__value'>
-                KK
-              </Text>
-            </View>
-            <View>
-              <Text className='questionnaire__info__key'>
-                联系电话：
-              </Text>
-              <Text className='questionnaire__info__value'>
-                1587xxxxxxx
-              </Text>
-            </View>
-          </View>
-          <View className='questionnaire__oper'>
-            <AtButton className='' circle type='primary' size='small'>已提交</AtButton>
-            <AtButton circle type='secondary' size='small'>修改</AtButton>
-            <AtButton circle size='small'>删除</AtButton>
-          </View>
-        </View>
-
-        <View className='questionnaire'>
-          <View className='questionnaire__info'>
-            <View>
-              <Text className='questionnaire__info__key'>
-                单位名称：
-              </Text> 
-              <Text className='questionnaire__info__value'>
-                Quanta
-              </Text> 
-            </View>
-            <View>
-              <Text className='questionnaire__info__key'>
-                招聘负责人姓名：
-              </Text> 
-              <Text className='questionnaire__info__value'>
-                KK
-              </Text>
-            </View>
-            <View>
-              <Text className='questionnaire__info__key'>
-                联系电话：
-              </Text>
-              <Text className='questionnaire__info__value'>
-                1587xxxxxxx
-              </Text>
-            </View>
-          </View>
-          <View className='questionnaire__oper'>
-            <AtButton className='' circle type='primary' size='small'>已提交</AtButton>
-            <AtButton circle type='secondary' size='small'>修改</AtButton>
-            <AtButton circle size='small'>删除</AtButton>
-          </View>
-        </View>
+            )
+          })
+        }
       </View>
 
 

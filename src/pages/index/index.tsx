@@ -26,9 +26,9 @@ function Index() {
           <Text className='module__title'>反馈建议</Text>
         </Navigator>
       </View>
-      <View className='contact'>
+      <Navigator className='contact' url='/pages/contact/contact'>
         <Text className='contact__title'>联系我们</Text>
-      </View>
+      </Navigator>
     </View>
   )
 }
