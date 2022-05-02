@@ -1,5 +1,7 @@
 export default defineAppConfig({
   pages: [
+
+    "pages/college/college",
     "pages/index/index",
     "pages/complete/complete",
     "pages/feedback/feedback",
@@ -12,7 +14,6 @@ export default defineAppConfig({
     "pages/modifyQuestionnaire/modifyQuestionnaire",
     "pages/contact/contact",
 
-    "pages/college/college",
   ],
   window: {
     backgroundTextStyle: "light",
