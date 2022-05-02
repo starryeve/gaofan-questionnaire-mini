@@ -27,8 +27,8 @@ function ModifyQuestionnaire() {
     openid: ''
   })
   const [selector] = useState({
-    mode: ['线上', '线下'],
-    salary: ['面谈', '5000-7000', '7000-10000', '10000以上', '其他']
+    mode: ['线上', '线下', '混合‘],
+    salary: ['面谈', '5000-7000', '7001-10000', '10000以上', '其他']
   })
   const [modal, setModal] = useState({
     save: false,

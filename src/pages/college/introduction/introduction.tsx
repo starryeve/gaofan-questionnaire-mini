@@ -9,7 +9,7 @@ function Introduction() {
       <View className='section'>
         <View className='title'>我们是谁？</View>
         <View className='description'>
-          中国最早建立翻译专业本科、本科双学位、硕士、专业硕士和博士完整人才培养体系的单位。
+          我国最早建立翻译专业本科、本科双学位、硕士、专业硕士和博士完整人才培养体系的单位。
         </View>
         <View className='description'>
           联合国高端翻译人才培养大学外延计划的中文合作院校、国际大学翻译学院联合会（CIUTI）和国际译联（FIT）联席会员，列入国际会议口译员协会学校名录（AIIC School Directory），是世界翻译教育联盟（WITTA）的首创单位。
