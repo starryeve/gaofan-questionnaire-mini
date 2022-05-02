@@ -315,7 +315,7 @@ function NewQuestionnaire() {
 
         <View className='hr-info'>
           <View className='hr-title'>
-            <Text>请填写招聘负责人信息</Text>
+            <Text>请填写负责人信息</Text>
             <Text style={{color: '#F56565'}}> * </Text>
           </View>
           <AtInput placeholder='请输入姓名'

@@ -76,7 +76,7 @@ function Employee() {
         onConfirm={deleteQuestionnaire}
       />
 
-      <View className='title'>我的就业问卷</View>
+      <View className='title'>用人单位招聘岗位信息填报</View>
       <View className='questionnaires'>
         {
           questionnaires.map((item, index) => {

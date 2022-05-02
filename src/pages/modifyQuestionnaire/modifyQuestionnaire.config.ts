@@ -1,3 +1,3 @@
 export default definePageConfig({
-  navigationBarTitleText: '问卷内容'
+  navigationBarTitleText: '岗位信息填报'
 })
