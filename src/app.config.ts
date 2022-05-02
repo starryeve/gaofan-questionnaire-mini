@@ -11,8 +11,6 @@ export default defineAppConfig({
     "pages/practice/practice",
     "pages/employment/employment",
 
-    "pages/questionnaire/questionnaire",
-
 
     "pages/contact/contact",
 
