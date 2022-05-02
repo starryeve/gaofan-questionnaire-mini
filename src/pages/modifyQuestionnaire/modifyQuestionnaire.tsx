@@ -1,11 +1,11 @@
 import { Picker, View, Text } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
 import { useEffect, useState } from "react";
-import { AtButton, AtForm, AtIcon, AtInput, AtList, AtListItem , AtMessage, AtModal } from "taro-ui";
+import { AtButton, AtForm, AtIcon, AtInput, AtList, AtListItem , AtMessage, AtModal, AtTextarea } from "taro-ui";
 import request from "../../request/index";
 import './modifyQuestionnaire.scss'
 
-function Questionnaire() {
+function ModifyQuestionnaire() {
   const { params } = useRouter()
   const [form, setForm] = useState({
     companyName: '', // 公司名称
@@ -157,16 +157,16 @@ function Questionnaire() {
             <Text className='form-item__label--required'> * </Text>
           </View>
           <View className='form-item__input'>
-          <AtInput placeholder='请输入公司名称'
-            required name='companyName'
-            type='text'
-            value={form.companyName}
-            onChange={e => {
-              setForm({
-              ...form,
-              companyName: String( e )
-            })}}
-          />
+            <AtInput placeholder='请输入公司名称'
+              required name='companyName'
+              type='text'
+              value={form.companyName}
+              onChange={e => {
+                setForm({
+                ...form,
+                companyName: String( e )
+              })}}
+            />
           </View>
         </View>
 
@@ -186,7 +186,7 @@ function Questionnaire() {
               })}}
             >
                 <AtList>
-                  <AtListItem className='form-item__label--placeholder'
+                  <AtListItem className={form.mode || 'form-item__input--placeholder'}
                     title={form.mode || '请选择工作模式'}
                   >
                   </AtListItem>
@@ -202,20 +202,23 @@ function Questionnaire() {
             <Text className='form-item__label--required'> * </Text>
           </View>
           <View className='form-item__input'>
-            <Picker mode='region' value={form.basicAddress.split('/')} onChange={e => {setForm({
+            <Picker mode='region' value={form.basicAddress.split('/')} onChange={e => {
+ 
+              
+              setForm({
               ...form,
               basicAddress: e.detail.value.join('/')
             })}}
             >
               <AtList>
-                <AtListItem className='form-item__label--placeholder' title={form.basicAddress || '请选择省市区'}>
+                <AtListItem className={form.basicAddress || 'form-item__input--placeholder'} title={form.basicAddress || '请选择省市区'}>
                 </AtListItem>
               </AtList>
             </Picker>
           </View>
           <View className='form-item__input'>
             <AtInput placeholder='请输入详细地址'
-              required name='companyName'
+              required name='detailedAddress'
               type='text'
               value={form.detailedAddress}
               onChange={e => {setForm({
@@ -233,7 +236,7 @@ function Questionnaire() {
           </View>
           <View className='form-item__input'>
             <AtInput placeholder='请输入工作时间'
-              required name='companyName'
+              required name='workTime'
               type='text'
               value={form.workTime}
               onChange={e => {setForm({
@@ -250,15 +253,16 @@ function Questionnaire() {
             <Text className='form-item__label--required'> * </Text>
           </View>
           <View className='form-item__input'>
-            <AtInput placeholder='请输入工作内容'
-              required name='companyName'
-              type='text'
-              value={form.content}
-              onChange={e => {setForm({
+              <AtTextarea
+                placeholder='请输入工作内容'
+                height={429}
+                value={form.content}
+                onChange={e => {setForm({
                 ...form,
                 content: String( e )
               })}}
-            />
+                maxLength={500}
+              />
           </View>
         </View>
 
@@ -268,17 +272,19 @@ function Questionnaire() {
             <Text className='form-item__label--required'> * </Text>
           </View>
           <View className='form-item__input'>
-            <AtInput placeholder='请输入任职要求'
-              required name='companyName'
-              type='text'
+            <AtTextarea
+              placeholder='请输入任职要求'
+              height={429}
               value={form.jd}
               onChange={e => {setForm({
-                ...form,
-                jd: String( e )
-              })}}
+                  ...form,
+                  jd: String( e )
+                })}}
+              maxLength={500}
             />
           </View>
         </View>
+
 
         <View className='form-item'>
           <View className='form-item__label'>
@@ -289,13 +295,14 @@ function Questionnaire() {
             <Picker mode='selector'
               range={selector.salary}
               onChange={e => {
+                console.log(e);
                 setForm({
                 ...form,
                 salary: selector.salary[e.detail.value]
               })}}
             >
                 <AtList>
-                  <AtListItem className='form-item__label--placeholder'
+                  <AtListItem className={form.salary || 'form-item__input--placeholder'}
                     title={form.salary || '请选择薪资范畴'}
                   >
                   </AtListItem>
@@ -362,4 +369,4 @@ function Questionnaire() {
   )
 }
 
-export default Questionnaire
+export default ModifyQuestionnaire

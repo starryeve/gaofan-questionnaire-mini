@@ -1,8 +1,11 @@
 export default defineAppConfig({
   pages: [
+    "pages/index/index",
+    "pages/modifyQuestionnaire/modifyQuestionnaire",
+    "pages/newQuestionnaire/newQuestionnaire",
 
     "pages/college/college",
-    "pages/index/index",
+
     "pages/complete/complete",
     "pages/feedback/feedback",
     "pages/practice/practice",
@@ -10,8 +13,7 @@ export default defineAppConfig({
 
     "pages/questionnaire/questionnaire",
 
-    "pages/newQuestionnaire/newQuestionnaire",
-    "pages/modifyQuestionnaire/modifyQuestionnaire",
+
     "pages/contact/contact",
 
   ],
