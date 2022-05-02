@@ -137,7 +137,7 @@ function ModifyQuestionnaire() {
           onClose={() => { setModal({...modal, save: false}); Taro.navigateBack()}}
           onCancel={() => { setModal({...modal, save: false}); Taro.navigateBack()}}
           onConfirm={() => { setModal({...modal, save: false}); Taro.navigateBack()}}
-          content='问卷信息已保存至草稿箱，信息填写完整方可提交'
+          content='岗位信息已保存至草稿箱，信息填写完整方可提交'
         />
       <AtModal
         isOpened={modal.submit}
@@ -147,7 +147,7 @@ function ModifyQuestionnaire() {
         onClose={() => setModal({...modal, submit: false})}
         onCancel={() => setModal({...modal, submit: false})}
         onConfirm={handleSubmit}
-        content='请确保问卷信息无误，填写成功后将不能再修改'
+        content='请确保岗位信息无误，填写成功后将不能再修改'
       />
       <AtMessage />
       <AtForm className='form'>
